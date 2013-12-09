@@ -1,0 +1,49 @@
+CROSS_HOST="x86_64-w64-mingw32"
+inherit cross
+
+NAME="mingw64-x86_64-libcaca"
+VERSION=0.99.beta18
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Color ASCII art library for Win64 toolchain"
+DESCRIPTION="libcaca is a graphics library that outputs text instead of pixels,
+so that it can work on older video cards or text terminals. It is not unlike
+the famous AAlib library, except that colors are supported. libcaca can use
+almost any virtual terminal to work, and there is also a native X11 driver that
+does not require a text terminal."
+HOMEPAGE="http://libcaca.zoy.org/"
+SRC_URI="http://libcaca.zoy.org/raw-attachment/wiki/libcaca/libcaca-${VERSION}.tar.gz"
+SRC_DIR="libcaca-${VERSION}"
+PATCH_URI="
+	0.99.beta18-dllexport.patch
+	0.99.beta18-opengl-win32.patch
+"
+
+CYGCONF_ARGS="
+	--disable-debug
+	--disable-doc
+	--disable-plugins
+	--disable-conio
+	--disable-cocoa
+	--enable-gl
+	--disable-imlib2
+	--disable-ncurses
+	--disable-slang
+	--enable-win32
+	--disable-x11
+	--enable-cxx
+	--disable-csharp
+	--disable-java
+	--disable-python
+	--disable-ruby
+"
+
+src_install() {
+	cd ${B}
+	cyginstall bin_PROGRAMS= man_MANS= pkgdata_DATA=
+
+	rm -f ${D}${CROSS_LIBDIR}/libcucul*.la
+	rm -fr ${D}${CROSS_DATADIR}/man/
+}
+
+KEEP_LA_FILES="none"

@@ -1,0 +1,22 @@
+--- origsrc/libcaca-0.99.beta18/caca/driver/gl.c	2012-04-06 13:46:02.000000000 -0500
++++ src/libcaca-0.99.beta18/caca/driver/gl.c	2013-12-09 03:58:34.697949700 -0600
+@@ -606,7 +606,7 @@ static void gl_compute_font(caca_display
+ 
+ int gl_install(caca_display_t *dp)
+ {
+-#if defined(HAVE_GETENV) && defined(GLUT_XLIB_IMPLEMENTATION)
++#if defined(HAVE_GETENV) && defined(GLUT_XLIB_IMPLEMENTATION) && !defined(_WIN32)
+     if(!getenv("DISPLAY") || !*(getenv("DISPLAY")))
+         return -1;
+ #endif
+--- origsrc/libcaca-0.99.beta18/configure.ac	2012-04-06 15:39:42.000000000 -0500
++++ src/libcaca-0.99.beta18/configure.ac	2013-12-09 14:59:13.429549000 -0600
+@@ -241,7 +241,7 @@ if test "${enable_gl}" != "no"; then
+       break])
+   if test "${ac_cv_my_have_gl}" = "yes"; then
+     AC_DEFINE(USE_GL, 1, Define to 1 to activate the OpenGL backend driver)
+-    GL_LIBS="${GL_LIBS} -lGL -lGLU -lglut"
++    GL_LIBS="${GL_LIBS} -lglut -lglu32 -lopengl32"
+     CACA_DRIVERS="${CACA_DRIVERS} gl"
+   elif test "${enable_gl}" = "yes"; then
+     AC_MSG_ERROR([cannot find OpenGL+FreeGLUT development files])
