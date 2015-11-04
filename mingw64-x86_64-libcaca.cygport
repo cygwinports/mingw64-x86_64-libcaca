@@ -2,7 +2,7 @@ CROSS_HOST="x86_64-w64-mingw32"
 inherit cross
 
 NAME="mingw64-x86_64-libcaca"
-VERSION=0.99.beta18
+VERSION=0.99.beta19
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Color ASCII art library for Win64 toolchain"
@@ -17,8 +17,10 @@ SRC_DIR="libcaca-${VERSION}"
 PATCH_URI="
 	0.99.beta18-dllexport.patch
 	0.99.beta18-opengl-win32.patch
+	0.99.beta19-stdio-mingw64.patch
 "
 
+CPPFLAGS+=" -DMINGW_HAS_SECURE_API"
 CYGCONF_ARGS="
 	--disable-debug
 	--disable-doc
